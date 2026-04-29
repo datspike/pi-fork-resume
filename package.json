@@ -1,0 +1,57 @@
+{
+  "name": "@datspike/pi-fork-resume",
+  "version": "0.1.0",
+  "description": "Pi extension that forks a session selected through the resume-style session picker without opening the source session.",
+  "type": "module",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-coding-agent",
+    "extension",
+    "fork",
+    "resume",
+    "session"
+  ],
+  "author": "Enzo Lucchesi <enzo@edl.sh>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/datspike/pi-fork-resume.git"
+  },
+  "bugs": {
+    "url": "https://github.com/datspike/pi-fork-resume/issues"
+  },
+  "homepage": "https://github.com/datspike/pi-fork-resume#readme",
+  "publishConfig": {
+    "access": "public"
+  },
+  "pi": {
+    "extensions": [
+      "./src/index.ts"
+    ]
+  },
+  "files": [
+    "src",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "node --test --import tsx tests/**/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "check": "npm run typecheck && npm test && npm pack --dry-run"
+  },
+  "peerDependencies": {
+    "@mariozechner/pi-coding-agent": "*",
+    "@mariozechner/pi-tui": "*"
+  },
+  "devDependencies": {
+    "@mariozechner/pi-coding-agent": "^0.70.6",
+    "@mariozechner/pi-tui": "^0.70.6",
+    "@types/node": "^24.3.0",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3"
+  },
+  "engines": {
+    "node": ">=20.6.0"
+  }
+}
