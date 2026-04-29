@@ -14,11 +14,6 @@ export default function forkResumeExtension(pi: ExtensionAPI): void {
     description: "Fork a session selected from the resume-style picker without opening the source session",
     handler: async (_args, ctx) => executeForkResume(ctx),
   });
-
-  pi.registerCommand("fork-picker", {
-    description: "Alias for /fork-resume",
-    handler: async (_args, ctx) => executeForkResume(ctx),
-  });
 }
 
 /** Выполняет fork-resume с безопасным post-switch кодом только на новом контексте. */
