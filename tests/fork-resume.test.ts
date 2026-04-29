@@ -51,9 +51,8 @@ test("runForkResume_forks_selected_session_and_switches_to_new_file", async () =
     "pickSession",
     "forkFrom:/sessions/source.jsonl",
     "switchSession:/sessions/fork.jsonl",
-    "notify:info",
   ]);
-  assert.deepEqual(notifications, [{ message: "Forked selected session", level: "info" }]);
+  assert.deepEqual(notifications, []);
 });
 
 test("runForkResume_cancels_when_user_does_not_pick_session", async () => {

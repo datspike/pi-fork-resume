@@ -46,6 +46,5 @@ export async function runForkResume(deps: ForkResumeDependencies): Promise<ForkR
     return { status: "cancelled", sourcePath, forkedPath, reason: "Switch cancelled" };
   }
 
-  deps.notify("Forked selected session", "info");
   return { status: "forked", sourcePath, forkedPath };
 }

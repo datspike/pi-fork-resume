@@ -12,28 +12,27 @@ import { runForkResume } from "./fork-resume.js";
 export default function forkResumeExtension(pi: ExtensionAPI): void {
   pi.registerCommand("fork-resume", {
     description: "Fork a session selected from the resume-style picker without opening the source session",
-    handler: async (_args, ctx) => {
-      await runForkResume({
-        waitForIdle: () => ctx.waitForIdle(),
-        pickSession: () => pickSession(ctx),
-        forkFrom: (sourcePath) => SessionManager.forkFrom(sourcePath, ctx.cwd, ctx.sessionManager.getSessionDir()),
-        switchSession: (sessionPath) => ctx.switchSession(sessionPath),
-        notify: (message, level) => ctx.ui.notify(message, level),
-      });
-    },
+    handler: async (_args, ctx) => executeForkResume(ctx),
   });
 
   pi.registerCommand("fork-picker", {
     description: "Alias for /fork-resume",
-    handler: async (_args, ctx) => {
-      await runForkResume({
-        waitForIdle: () => ctx.waitForIdle(),
-        pickSession: () => pickSession(ctx),
-        forkFrom: (sourcePath) => SessionManager.forkFrom(sourcePath, ctx.cwd, ctx.sessionManager.getSessionDir()),
-        switchSession: (sessionPath) => ctx.switchSession(sessionPath),
-        notify: (message, level) => ctx.ui.notify(message, level),
-      });
-    },
+    handler: async (_args, ctx) => executeForkResume(ctx),
+  });
+}
+
+/** Выполняет fork-resume с безопасным post-switch кодом только на новом контексте. */
+async function executeForkResume(ctx: ExtensionCommandContext): Promise<void> {
+  await runForkResume({
+    waitForIdle: () => ctx.waitForIdle(),
+    pickSession: () => pickSession(ctx),
+    forkFrom: (sourcePath) => SessionManager.forkFrom(sourcePath, ctx.cwd, ctx.sessionManager.getSessionDir()),
+    switchSession: (sessionPath) => ctx.switchSession(sessionPath, {
+      withSession: async (nextCtx) => {
+        nextCtx.ui.notify("Forked selected session", "info");
+      },
+    }),
+    notify: (message, level) => ctx.ui.notify(message, level),
   });
 }
 
